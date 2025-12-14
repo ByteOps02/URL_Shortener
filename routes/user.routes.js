@@ -1,6 +1,4 @@
 import express from "express";
-import { db } from "../db/index.js";
-import { usersTable } from "../models/index.js";
 import { signupPostRequestBodySchema } from "../validation/request.validation.js";
 import { hashPasswordWithSalt } from "../utils/hash.js";
 import { getUserByEmail } from "../services/user.service.js";
