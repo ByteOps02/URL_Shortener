@@ -13,3 +13,16 @@ export async function createUserToken(payload) {
   const token = jwt.sign(payloadValidatedData, JWT_SECRET);
   return token;
 }
+
+export async function validateToken(token) {
+	try {
+		const decoded = jwt.verify(token, JWT_SECRET);
+		const validationResult = await userTokenSchema.safeParseAsync(decoded);
+		if (validationResult.error) {
+			return { error: validationResult.error.message };
+		}
+		return { data: validationResult.data };
+	} catch (error) {
+		return { error: error.message };
+	}
+}
