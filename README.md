@@ -114,7 +114,7 @@ All endpoints are prefixed with `/`.
 *   pnpm
 *   PostgreSQL
 
-### Installation
+### Installation & Onetime Setup
 
 1.  Clone the repository:
     ```bash
@@ -131,16 +131,37 @@ All endpoints are prefixed with `/`.
     DATABASE_URL="postgresql://postgres:admin@localhost:5432/postgres"
     JWT_SECRET=your-super-secret-key
     ```
-4.  Apply database migrations:
+4.  Start the database using docker
+   ```bash
+   docker-compose up -d
+   ```
+5.  Apply database migrations:
     ```bash
     pnpm db:push
     ```
 
-### Running the Application
+### Commands
 
-```bash
-pnpm dev
-```
+* To start the application
+  ```bash
+  pnpm run dev
+  ```
+* To start the database
+  ```bash
+  docker-compose up -d
+  ```
+* To stop the database
+  ```bash
+  docker-compose down
+  ```
+* To apply database migrations
+  ```bash
+  pnpm db:push
+  ```
+* To view the database
+  ```bash
+  pnpm db:studio
+  ```
 
 The server will start on `http://localhost:8000`.
 
@@ -168,6 +189,3 @@ The database schema is defined using Drizzle ORM.
 | `targetURL` | `varchar` |                  |
 | `userId`    | `uuid`    | Foreign Key to `users.id` |
 
-## License
-
-This project is licensed under the ISC License.
