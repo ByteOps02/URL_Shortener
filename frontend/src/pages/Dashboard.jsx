@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
-import { createShortUrl, getUserUrls } from "../services/url.service";
+import { createShortUrl, getUserUrls, deleteUrl } from "../services/url.service";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../components/common/BackButton";
@@ -40,6 +40,16 @@ const Dashboard = () => {
     const url = `http://localhost:8000/${shortCode}`;
     navigator.clipboard.writeText(url);
     toast.success("Copied to clipboard!");
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteUrl(id);
+      setUrls(urls.filter((url) => url.id !== id));
+      toast.success("URL deleted successfully!");
+    } catch {
+      toast.error("Failed to delete URL");
+    }
   };
 
   const handleBack = () => {
@@ -139,16 +149,28 @@ const Dashboard = () => {
                       /{u.shortCode}
                     </a>
 
-                    <button
-                      onClick={() => copyToClipboard(u.shortCode)}
-                      className="text-sm px-3 py-1 rounded-lg
-                                 bg-gray-100 dark:bg-gray-800
-                                 dark:text-gray-300
-                                 hover:bg-gray-200 dark:hover:bg-gray-700
-                                 transition"
-                    >
-                      Copy
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => copyToClipboard(u.shortCode)}
+                        className="text-sm px-3 py-1 rounded-lg
+                                   bg-gray-100 dark:bg-gray-800
+                                   dark:text-gray-300
+                                   hover:bg-gray-200 dark:hover:bg-gray-700
+                                   transition"
+                      >
+                        Copy
+                      </button>
+                      <button
+                        onClick={() => handleDelete(u.id)}
+                        className="text-sm px-3 py-1 rounded-lg
+                                   bg-red-100 text-red-600
+                                   dark:bg-red-900/50 dark:text-red-400
+                                   hover:bg-red-200 dark:hover:bg-red-900
+                                   transition"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               ))}
