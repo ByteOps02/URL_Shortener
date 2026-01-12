@@ -140,6 +140,10 @@ All endpoints are prefixed with `/`.
     pnpm db:push
     ```
 
+### Deployment
+
+For production environments like Vercel, you need to set the environment variables in the project settings. Make sure to set `DATABASE_URL` and `JWT_SECRET`. After setting the environment variables, you need to redeploy the application.
+
 ### Commands
 
 * To start the application
