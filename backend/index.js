@@ -26,6 +26,4 @@ app.get("/", (req, res) => {
 app.use("/user", userRouter);
 app.use(urlRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on PORT ${PORT}`);
-});
+export default app;
