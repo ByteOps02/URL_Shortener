@@ -86,43 +86,50 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const validationResult = await loginPostRequestBodySchema.safeParseAsync(
-    req.body
-  );
+  try {
+    const validationResult = await loginPostRequestBodySchema.safeParseAsync(
+      req.body
+    );
 
-  if (validationResult.error) {
-    return res.status(400).json({
-      error: {
-        issues: validationResult.error.issues,
-      },
+    if (validationResult.error) {
+      return res.status(400).json({
+        error: {
+          issues: validationResult.error.issues,
+        },
+      });
+    }
+
+    const { email, password } = validationResult.data;
+
+    const user = await getUserByEmail(email);
+
+    if (!user) {
+      return res.status(404).json({
+        error: `User with email ${email} does not exist`,
+      });
+    }
+
+    const { password: hashedPassword } = hashPasswordWithSalt(
+      password,
+      user.salt
+    );
+
+    if (user.password !== hashedPassword) {
+      return res.status(400).json({
+        error: "Invalid Password",
+      });
+    }
+
+    // const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+    const token = await createUserToken({ id: user.id });
+
+    return res.json({ token });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      error: "Internal Server Error",
     });
   }
-
-  const { email, password } = validationResult.data;
-
-  const user = await getUserByEmail(email);
-
-  if (!user) {
-    return res.status(404).json({
-      error: `User with email ${email} does not exist`,
-    });
-  }
-
-  const { password: hashedPassword } = hashPasswordWithSalt(
-    password,
-    user.salt
-  );
-
-  if (user.password !== hashedPassword) {
-    return res.status(400).json({
-      error: "Invalid Password",
-    });
-  }
-
-  // const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
-  const token = await createUserToken({ id: user.id });
-
-  return res.json({ token });
 });
 
 export default router;

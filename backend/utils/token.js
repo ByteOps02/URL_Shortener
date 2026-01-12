@@ -3,6 +3,10 @@ import { userTokenSchema } from "../validation/token.validation.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined in the environment variables");
+}
+
 export async function createUserToken(payload) {
   const validationResult = await userTokenSchema.safeParseAsync(payload);
 
