@@ -7,8 +7,8 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     define: {
-      "import.meta.env.VITE_API_BASE_URL": JSON.stringify(
-        env.VITE_API_BASE_URL
+      "import.meta.env.VITE_BACKEND_URL": JSON.stringify(
+        env.VITE_BACKEND_URL
       ),
     },
   };

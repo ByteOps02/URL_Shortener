@@ -88,11 +88,12 @@ Follow these instructions to set up and run the frontend application locally.
     npm install
     ```
 
-3.  **Create an environment file** (optional):
-    Create a file named `.env` in the `frontend` directory. The application will connect to `http://localhost:8000` by default. If your backend is running on a different URL, specify it in this file:
+3.  **Create an environment file**:
+    Create a file named `.env` in the `frontend` directory. The application requires this file to connect to the backend. Specify the backend URL in this file:
     ```
-    VITE_BACKEND_URL=http://your-backend-url:port
+    VITE_BACKEND_URL=http://localhost:8000
     ```
+    If your backend is running on a different URL, replace the value accordingly.
 
 ### Running the Application
 

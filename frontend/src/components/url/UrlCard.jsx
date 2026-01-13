@@ -1,7 +1,7 @@
 import toast from "react-hot-toast";
 
 const UrlCard = ({ url }) => {
-  const shortUrl = `http://localhost:5000/${url.shortCode}`;
+  const shortUrl = `${import.meta.env.VITE_BACKEND_URL}/${url.shortCode}`;
 
   const copy = () => {
     navigator.clipboard.writeText(shortUrl);
