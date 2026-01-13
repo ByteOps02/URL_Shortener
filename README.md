@@ -1,53 +1,53 @@
-# URL Shortener - Full Stack Project
+# Shortify - A Full-Stack URL Shortener
 
-This is a full-stack URL shortener application built with a React frontend and a Node.js/Express backend. It allows users to sign up, log in, and manage their own shortened URLs.
+Shortify is a modern, full-stack URL shortener application built with a React frontend and a Node.js/Express backend. It provides a seamless experience for users to create, manage, and share shortened URLs. With a clean, responsive interface and powerful features, Shortify is designed to be both user-friendly and highly functional.
 
-## Features
+## Key Features
 
-*   **User Authentication**: Secure sign up and login functionality using JWT.
-*   **URL Shortening**: Create custom or randomly generated short URLs from long ones.
-*   **URL Management**: A dashboard to view, copy, and delete your shortened URLs.
-*   **Theme Control**: Toggle between light, dark, and system-default themes.
-*   **Responsive Design**: A clean, modern UI optimized for all screen sizes.
-*   **API Endpoints**: A well-defined backend API for managing users and URLs.
-*   **Toast Notifications**: User-friendly feedback for application events.
+- **User Authentication**: Secure user registration and login using JWT-based authentication.
+- **URL Shortening**: Generate custom or random short URLs from long ones.
+- **URL Management**: Create, retrieve, and delete shortened URLs.
+- **Redirection**: Handles redirection from short URLs to their original target.
+- **Dashboard**: A personalized dashboard to view, copy, and delete your shortened URLs.
+- **Theme Control**: Switch between light, dark, and system-default themes for a comfortable user experience.
+- **Responsive Design**: A sleek and modern UI that looks great on all screen sizes.
+- **API Endpoints**: A well-structured backend API for managing users and URLs.
+- **Toast Notifications**: Instant, user-friendly feedback for all actions.
+- **Database**: Uses PostgreSQL with Drizzle ORM for database management.
 
 ## Tech Stack
 
-### Frontend
-*   **Framework**: React (with Vite)
-*   **Styling**: Tailwind CSS
-*   **State Management**: React Context API
-*   **Routing**: React Router DOM
-*   **API Calls**: Axios
-*   **Animations**: Framer Motion
-*   **Notifications**: React Hot Toast
+| Category          | Technology                                       |
+| ----------------- | ------------------------------------------------ |
+| **Frontend**      | React, Vite, Tailwind CSS, React Router, Axios   |
+| **Backend**       | Node.js, Express.js, PostgreSQL, Drizzle ORM     |
+| **Authentication**| JSON Web Tokens (JWT)                            |
+| **Containerization**| Docker                                           |
 
-### Backend
-*   **Framework**: Node.js, Express.js
-*   **Database**: PostgreSQL
-*   **ORM**: Drizzle ORM
-*   **Containerization**: Docker (for database)
-*   **Authentication**: JSON Web Tokens (JWT)
-*   **Validation**: Zod
+### Backend Technologies
+- **Framework**: Node.js, Express.js
+- **Database**: PostgreSQL
+- **ORM**: Drizzle ORM
+- **Authentication**: JSON Web Tokens (JWT)
+- **Validation**: Zod
+- **ID Generation**: `nanoid`
 
 ## Project Structure
 
-```
-.
-├── backend/     # Node.js, Express, Drizzle ORM
-└── frontend/    # React, Vite, Tailwind CSS
-```
+The project is organized into two main directories:
+
+- **`/frontend`**: Contains the React application, including all components, pages, services, and styles.
+- **`/backend`**: Contains the Node.js server, including API routes, database models, and authentication logic.
 
 ## Getting Started
 
-Follow these steps to set up and run the entire application locally.
+To get the application up and running locally, follow these steps:
 
 ### Prerequisites
 
-*   Node.js (LTS version recommended)
-*   pnpm (or npm/yarn)
-*   Docker and Docker Compose
+- Node.js (LTS version)
+- pnpm (or npm/yarn)
+- Docker and Docker Compose
 
 ---
 

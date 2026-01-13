@@ -1,179 +1,159 @@
-# URL Shortener Backend
+# Shortify Backend
 
-This is the backend for a URL shortener application. It allows users to create, manage, and use shortened URLs.
+This directory contains the backend for the Shortify URL shortener application. It is built with Node.js and Express and provides a RESTful API for user authentication and URL management.
 
 ## Features
 
-*   User authentication (signup and login) with JWT.
-*   Create custom or random short URLs.
-*   List all shortened URLs for a user.
-*   Delete shortened URLs.
-*   Redirect to the original URL from a short URL.
+- **User Authentication**: Secure signup and login with JWT.
+- **URL Management**: Create, retrieve, and delete shortened URLs.
+- **Redirection**: Handles redirection from short URLs to their original target.
+- **Database**: Uses PostgreSQL with Drizzle ORM for database management.
 
 ## Technologies Used
 
-*   **Backend:** Node.js, Express.js
-*   **Database:** PostgreSQL
-*   **ORM:** Drizzle ORM
-*   **Authentication:** JSON Web Tokens (JWT)
-*   **Validation:** Zod
-*   **ID Generation:** nanoid
+- **Framework**: Node.js, Express.js
+- **Database**: PostgreSQL
+- **ORM**: Drizzle ORM
+- **Authentication**: JSON Web Tokens (JWT)
+- **Validation**: Zod
+- **ID Generation**: `nanoid`
 
 ## API Endpoints
 
-All endpoints are prefixed with `/`.
+All endpoints are accessible under the `/` prefix.
 
 ### Authentication
 
-*   `POST /user/signup`: Create a new user.
-    *   **Request Body:**
-        ```json
-        {
-          "firstname": "John",
-          "lastname": "Doe",
-          "email": "john.doe@example.com",
-          "password": "yourpassword"
-        }
-        ```
-    *   **Response:**
-        ```json
-        {
-          "data": {
-            "userId": "some-uuid"
-          }
-        }
-        ```
+- `POST /user/signup`: Creates a new user account.
+  - **Request Body**:
+    ```json
+    {
+      "firstname": "John",
+      "lastname": "Doe",
+      "email": "john.doe@example.com",
+      "password": "yourpassword"
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "data": {
+        "userId": "some-uuid"
+      }
+    }
+    ```
 
-*   `POST /user/login`: Authenticate a user and get a JWT.
-    *   **Request Body:**
-        ```json
-        {
-          "email": "john.doe@example.com",
-          "password": "yourpassword"
-        }
-        ```
-    *   **Response:**
-        ```json
-        {
-          "token": "your-jwt"
-        }
-        ```
+- `POST /user/login`: Authenticates a user and returns a JWT.
+  - **Request Body**:
+    ```json
+    {
+      "email": "john.doe@example.com",
+      "password": "yourpassword"
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "token": "your-jwt"
+    }
+    ```
 
 ### URL Management
 
-*   `POST /shorten`: Create a new short URL.
-    *   **Headers:** `Authorization: Bearer <your-jwt>`
-    *   **Request Body:**
-        ```json
-        {
-          "url": "https://example.com/a-very-long-url",
-          "code": "custom-code" // Optional
-        }
-        ```
-    *   **Response:**
-        ```json
+- `POST /shorten`: Creates a new short URL.
+  - **Headers**: `Authorization: Bearer <your-jwt>`
+  - **Request Body**:
+    ```json
+    {
+      "url": "https://example.com/a-very-long-url",
+      "code": "custom-code" // Optional
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "id": "some-uuid",
+      "shortCode": "custom-code",
+      "targetURL": "https://example.com/a-very-long-url"
+    }
+    ```
+
+- `GET /codes`: Retrieves all short codes for the authenticated user.
+  - **Headers**: `Authorization: Bearer <your-jwt>`
+  - **Response**:
+    ```json
+    {
+      "codes": [
         {
           "id": "some-uuid",
           "shortCode": "custom-code",
-          "targetURL": "https://example.com/a-very-long-url"
+          "targetURL": "https://example.com/a-very-long-url",
+          "userId": "user-uuid"
         }
-        ```
+      ]
+    }
+    ```
 
-*   `GET /codes`: Get all short codes for the authenticated user.
-    *   **Headers:** `Authorization: Bearer <your-jwt>`
-    *   **Response:**
-        ```json
-        {
-          "codes": [
-            {
-              "id": "some-uuid",
-              "shortCode": "custom-code",
-              "targetURL": "https://example.com/a-very-long-url",
-              "userId": "user-uuid"
-            }
-          ]
-        }
-        ```
+- `DELETE /:id`: Deletes a short URL by its ID.
+  - **Headers**: `Authorization: Bearer <your-jwt>`
+  - **Response**:
+    ```json
+    {
+      "deleted": true
+    }
+    ```
 
-*   `DELETE /:id`: Delete a short URL by its ID.
-    *   **Headers:** `Authorization: Bearer <your-jwt>`
-    *   **Response:**
-        ```json
-        {
-          "deleted": true
-        }
-        ```
-
-*   `GET /:shortCode`: Redirect to the original URL.
+- `GET /:shortCode`: Redirects to the original URL.
 
 ## Getting Started
 
 ### Prerequisites
 
-*   Node.js
-*   pnpm
-*   PostgreSQL
+- Node.js
+- pnpm
+- PostgreSQL
 
-### Installation & Onetime Setup
+### Installation
 
-1.  Clone the repository:
-    ```bash
-    git clone https://github.com/your-username/url-shortener.git
-    cd url-shortener
-    ```
-2.  Install dependencies:
+1.  **Clone the repository** and navigate to the `backend` directory.
+2.  **Install dependencies**:
     ```bash
     pnpm install
     ```
-3.  Set up your environment variables. Create a `.env` file in the root of the project and add the following:
+3.  **Set up environment variables**: Create a `.env` file and add the following:
     ```
     PORT=8000
     DATABASE_URL="postgresql://postgres:admin@localhost:5432/postgres"
     JWT_SECRET=your-super-secret-key
     ```
-4.  Start the database using docker
-   ```bash
-   docker-compose up -d
-   ```
-5.  Apply database migrations:
+4.  **Start the database**:
+    ```bash
+    docker-compose up -d
+    ```
+5.  **Apply database migrations**:
     ```bash
     pnpm db:push
     ```
 
-### Deployment
+### Available Commands
 
-For production environments like Vercel, you need to set the environment variables in the project settings. Make sure to set `DATABASE_URL` and `JWT_SECRET`. After setting the environment variables, you need to redeploy the application.
-
-### Commands
-
-* To start the application
+- **Start the development server**:
   ```bash
   pnpm run dev
   ```
-* To start the database
-  ```bash
-  docker-compose up -d
-  ```
-* To stop the database
-  ```bash
-  docker-compose down
-  ```
-* To apply database migrations
-  ```bash
-  pnpm db:push
-  ```
-* To view the database
-  ```bash
-  pnpm db:studio
-  ```
+- **Manage the database**:
+  - `docker-compose up -d`: Start the database.
+  - `docker-compose down`: Stop the database.
+  - `pnpm db:push`: Apply migrations.
+  - `pnpm db:studio`: Open the database studio.
 
-The server will start on `http://localhost:8000`.
+The server will be available at `http://localhost:8000`.
 
 ## Database Schema
 
-The database schema is defined using Drizzle ORM.
+The database schema is defined with Drizzle ORM and consists of two main tables:
 
-### `users` Table
+### `users`
 
 | Column      | Type      | Constraints |
 |-------------|-----------|-------------|
@@ -184,12 +164,11 @@ The database schema is defined using Drizzle ORM.
 | `password`  | `varchar` |             |
 | `salt`      | `varchar` |             |
 
-### `urls` Table
+### `urls`
 
-| Column      | Type      | Constraints      |
-|-------------|-----------|------------------|
-| `id`        | `uuid`    | Primary Key      |
-| `shortCode` | `varchar` | Unique           |
-| `targetURL` | `varchar` |                  |
+| Column      | Type      | Constraints               |
+|-------------|-----------|---------------------------|
+| `id`        | `uuid`    | Primary Key               |
+| `shortCode` | `varchar` | Unique                    |
+| `targetURL` | `varchar` |                           |
 | `userId`    | `uuid`    | Foreign Key to `users.id` |
-

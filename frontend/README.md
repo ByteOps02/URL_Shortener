@@ -1,27 +1,29 @@
-# URL Shortener Frontend
+# Shortify Frontend
 
-This is the frontend application for the URL Shortener project, built with React, Vite, and Tailwind CSS.
+This directory contains the frontend for the Shortify URL shortener application. It is a modern, responsive single-page application (SPA) built with React, Vite, and Tailwind CSS.
 
 ## Features
 
-*   **User Authentication**: Sign up and log in functionality.
-*   **URL Shortening**: Create short URLs from long ones.
-*   **URL Management**: View a list of all your shortened URLs, copy them to the clipboard, and delete them.
-*   **Dark/Light/System Theme**: Toggle between light, dark, and system-default themes.
-*   **Responsive Design**: A clean, modern UI that works on various screen sizes.
-*   **Toast Notifications**: User-friendly feedback for actions like creating or deleting URLs.
+- **User Authentication**: Seamless sign-up and log-in experience.
+- **URL Shortening**: An intuitive interface for creating short URLs.
+- **Dashboard**: A comprehensive dashboard to manage all your shortened URLs.
+- **Theme Switcher**: Toggle between light, dark, and system themes.
+- **Responsive Design**: A clean, mobile-first design that adapts to any screen size.
+- **Toast Notifications**: User-friendly feedback for important actions.
 
 ## Tech Stack
 
-*   **Framework**: React (with Vite)
-*   **Styling**: Tailwind CSS
-*   **State Management**: React Context API
-*   **Routing**: React Router DOM
-*   **API Calls**: Axios
-*   **Animations**: Framer Motion
-*   **Notifications**: React Hot Toast
+- **Framework**: React (with Vite)
+- **Styling**: Tailwind CSS
+- **State Management**: React Context API
+- **Routing**: React Router DOM
+- **API Calls**: Axios
+- **Animations**: Framer Motion
+- **Notifications**: React Hot Toast
 
 ## Project Structure
+
+The `src` directory is organized as follows:
 
 ```
 frontend/
@@ -29,47 +31,35 @@ frontend/
     ├── assets/
     ├── components/
     │   ├── common/
-    │   │   ├── BackButton.jsx
-    │   │   ├── Button.jsx
-    │   │   ├── Input.jsx
-    │   │   ├── Loader.jsx
-    │   │   └── Navbar.jsx
     │   └── url/
-    │       ├── UrlCard.jsx
-    │       └── UrlForm.jsx
     ├── context/
-    │   ├── AuthContext.jsx
-    │   └── ThemeContext.jsx
     ├── pages/
-    │   ├── Auth/
-    │   │   ├── Login.jsx
-    │   │   └── Register.jsx
-    │   ├── Dashboard.jsx
-    │   ├── Home.jsx
-    │   └── NotFound.jsx
+    │   └── Auth/
     ├── routes/
-    │   └── AppRoutes.jsx
     ├── services/
-    │   ├── api.js
-    │   ├── auth.service.js
-    │   └── url.service.js
     ├── styles/
-    │   └── index.css
     ├── utils/
-    │   └── token.js
     ├── App.jsx
     └── main.jsx
 ```
 
+- **`components`**: Reusable UI components.
+- **`context`**: React context for state management (e.g., authentication, theme).
+- **`pages`**: Top-level page components for different routes.
+- **`routes`**: Application routing setup.
+- **`services`**: Modules for interacting with the backend API.
+- **`styles`**: Global styles and Tailwind CSS configuration.
+- **`utils`**: Utility functions.
+
 ## Getting Started
 
-Follow these instructions to set up and run the frontend application locally.
+To run the frontend application locally, follow these instructions.
 
 ### Prerequisites
 
-*   Node.js (LTS version recommended)
-*   pnpm (or npm/yarn)
-*   A running instance of the backend server. Please refer to the `backend/README.md` for setup instructions.
+- Node.js (LTS version)
+- pnpm (or npm/yarn)
+- A running instance of the backend server. See the [backend README](../backend/README.md) for instructions.
 
 ### Installation
 
@@ -79,21 +69,16 @@ Follow these instructions to set up and run the frontend application locally.
     ```
 
 2.  **Install dependencies**:
-    It is recommended to use `pnpm` as specified in the `package.json`:
     ```bash
     pnpm install
     ```
-    Alternatively, you can use `npm`:
-    ```bash
-    npm install
-    ```
 
 3.  **Create an environment file**:
-    Create a file named `.env` in the `frontend` directory. The application requires this file to connect to the backend. Specify the backend URL in this file:
+    Create a `.env` file in the `frontend` directory and specify the backend URL:
     ```
     VITE_BACKEND_URL=http://localhost:8000
     ```
-    If your backend is running on a different URL, replace the value accordingly.
+    If your backend is running on a different URL, update the value accordingly.
 
 ### Running the Application
 
@@ -102,9 +87,5 @@ To start the development server:
 ```bash
 pnpm run dev
 ```
-or
-```bash
-npm run dev
-```
 
-The application will typically be available at `http://localhost:5173`.
+The application will be available at `http://localhost:5173`.
