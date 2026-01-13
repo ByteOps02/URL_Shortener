@@ -30,11 +30,15 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
 
 
-          <Link
-            to="/"
-            className="text-xl font-extrabold text-blue-600 tracking-tight"
-          >
-            Shortify
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              src="/Shortify Logo.png"
+              alt="Shortify Logo"
+              className="h-8 w-auto"
+            />
+            <span className="text-xl font-extrabold text-blue-600 tracking-tight">
+              Shortify
+            </span>
           </Link>
         </div>
 
