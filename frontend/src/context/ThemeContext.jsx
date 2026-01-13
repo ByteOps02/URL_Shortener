@@ -7,15 +7,15 @@ export const ThemeProvider = ({ children }) => {
     localStorage.getItem("theme") || "system"
   );
 
-  const applyTheme = () => {
-    const isDark =
-      theme === "dark" ||
-      (theme === "system" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-    document.documentElement.classList.toggle("dark", isDark);
-  };
-
   useEffect(() => {
+    const applyTheme = () => {
+      const isDark =
+        theme === "dark" ||
+        (theme === "system" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+      document.documentElement.classList.toggle("dark", isDark);
+    };
+
     localStorage.setItem("theme", theme);
     applyTheme();
 

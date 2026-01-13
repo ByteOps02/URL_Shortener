@@ -6,6 +6,8 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../components/common/BackButton";
 
+const apiUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
 const Dashboard = () => {
   const [urls, setUrls] = useState([]);
   const [originalUrl, setOriginalUrl] = useState("");
@@ -37,7 +39,7 @@ const Dashboard = () => {
   };
 
   const copyToClipboard = (shortCode) => {
-    const url = `http://localhost:8000/${shortCode}`;
+    const url = `${apiUrl}/${shortCode}`;
     navigator.clipboard.writeText(url);
     toast.success("Copied to clipboard!");
   };
@@ -141,7 +143,7 @@ const Dashboard = () => {
 
                   <div className="flex items-center justify-between">
                     <a
-                      href={`http://localhost:8000/${u.shortCode}`}
+                      href={`${apiUrl}/${u.shortCode}`}
                       target="_blank"
                       rel="noreferrer"
                       className="text-blue-600 font-semibold hover:underline"
