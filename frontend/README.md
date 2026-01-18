@@ -4,6 +4,8 @@ This directory contains the frontend for the Shortify URL shortener application.
 
 ## Features
 
+- **Free Tier**: Try 3 free URL shortens without signup or login required!
+- **Device-Based Tracking**: Your free uses are tracked per device and persist forever.
 - **User Authentication**: Seamless sign-up and log-in experience.
 - **URL Shortening**: An intuitive interface for creating short URLs.
 - **Dashboard**: A comprehensive dashboard to manage all your shortened URLs.
@@ -92,6 +94,23 @@ pnpm run dev
 The application will be available at `http://localhost:5173`.
 
 ## Important Notes
+
+### Free Tier Feature
+
+Shortify offers a **free tier** that allows anyone to try the app without signing up:
+
+- **3 Free URL Shortens**: Every device gets 3 free attempts
+- **No Authentication**: Try before you commit to an account
+- **Device Tracking**: Uses browser fingerprinting to identify devices
+- **Persistent**: The counter persists even after browser restart, device restart, or server reboot
+- **Smart Prompts**: After 3 uses, users are prompted to sign up/login for unlimited access
+
+#### How Device Tracking Works:
+1. The frontend generates a unique device ID based on browser fingerprinting + timestamp
+2. This ID is stored in localStorage
+3. When user makes free shortens, the count is incremented in localStorage
+4. The count persists indefinitely unless user clears browser data
+5. After signup/login, users get unlimited shortens
 
 ### Rate Limiting
 

@@ -4,8 +4,10 @@ This directory contains the backend for the Shortify URL shortener application. 
 
 ## Features
 
+- **Free Tier URL Shortening**: Allow users to shorten 3 URLs without authentication.
+- **Device Tracking**: Track free tier usage per device using device fingerprinting.
 - **User Authentication**: Secure signup and login with JWT.
-- **URL Management**: Create, retrieve, and delete shortened URLs.
+- **URL Management**: Create, retrieve, and delete shortened URLs (authenticated users only).
 - **Redirection**: Handles redirection from short URLs to their original target.
 - **Rate Limiting**: Built-in protection against abuse with configurable rate limits.
 - **Database**: Uses PostgreSQL with Drizzle ORM for database management.
@@ -62,7 +64,29 @@ All endpoints are accessible under the `/` prefix.
 
 ### URL Management
 
-- `POST /shorten`: Creates a new short URL.
+- `POST /shorten-free`: Creates a new short URL for free tier users (no authentication).
+  - **Request Body**:
+    ```json
+    {
+      "url": "https://example.com/a-very-long-url",
+      "code": "custom-code", // Optional
+      "deviceId": "device-identifier"
+    }
+    ```
+  - **Response**:
+    ```json
+    {
+      "id": "some-uuid",
+      "shortCode": "custom-code",
+      "targetURL": "https://example.com/a-very-long-url"
+    }
+    ```
+  - **Notes**: 
+    - No authentication required
+    - `deviceId` is required and should be unique per device
+    - Free tier is limited to 3 shortens per device (enforced on frontend)
+
+- `POST /shorten`: Creates a new short URL for authenticated users.
   - **Headers**: `Authorization: Bearer <your-jwt>`
   - **Request Body**:
     ```json

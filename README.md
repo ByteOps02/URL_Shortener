@@ -4,6 +4,7 @@ Shortify is a modern, full-stack URL shortener application built with a React fr
 
 ## Key Features
 
+- **Free Tier**: 3 free URL shortens per device without signup - no login required!
 - **User Authentication**: Secure user registration and login using JWT-based authentication.
 - **URL Shortening**: Generate custom or random short URLs from long ones.
 - **URL Management**: Create, retrieve, and delete shortened URLs.
@@ -145,6 +146,28 @@ No additional configuration is required; rate limiting is enabled by default. If
 
 ---
 
-### Step 5: Access the Application
+### Step 5: Free Tier Feature
 
-Open your web browser and navigate to the frontend URL (e.g., `http://localhost:5173`). You should now be able to register, log in, and use the URL shortener application.
+Shortify includes a **free tier** that allows users to try the application without signing up:
+
+- **3 Free URL Shortens**: Every device gets 3 free attempts to shorten URLs
+- **No Signup Required**: Try before committing to an account
+- **Device-Based Tracking**: Free uses are tracked per device using browser fingerprinting
+- **Persistent**: Free use counter persists across browser restarts and server reboots
+- **Auto Prompts**: After 3 attempts, users are prompted to sign up/login for unlimited access
+
+#### How It Works:
+1. User visits the home page and sees the "Try for Free" widget
+2. User shortens a URL without authentication (uses `/shorten-free` endpoint)
+3. Device ID is generated using browser fingerprinting + timestamp
+4. Count is stored in localStorage and persists forever
+5. After 3 uses, user must sign up/login to continue
+
+---
+
+### Step 6: Access the Application
+
+Open your web browser and navigate to the frontend URL (e.g., `http://localhost:5174`). You should now be able to:
+1. Try 3 free URL shortens without signup
+2. Register and log in for unlimited shortens
+3. Manage all your shortened URLs in the dashboard
