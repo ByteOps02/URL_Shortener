@@ -8,8 +8,9 @@ export const urlsTable = pgTable("urls", {
   targetURL: text("target_url").notNull(),
 
   userId: uuid("user_id")
-    .notNull()
     .references(() => usersTable.id),
+
+  deviceId: varchar("device_id", { length: 255 }), // For tracking free/anonymous URLs
 
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),

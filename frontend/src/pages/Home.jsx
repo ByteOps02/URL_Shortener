@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import FreeUrlShortener from "../components/url/FreeUrlShortener";
 
 const Home = () => {
   return (
@@ -20,10 +21,15 @@ const Home = () => {
 
           <p className="mt-6 text-lg md:text-xl text-gray-600 dark:text-gray-400">
             Shorten, manage, and track your URLs with a fast, secure, and
-            developer-friendly platform.
+            developer-friendly platform. Try it free!
           </p>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
+          {/* FREE SHORTENER CARD */}
+          <div className="mt-10 flex justify-center">
+            <FreeUrlShortener />
+          </div>
+
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               to="/register"
               className="px-8 py-4 rounded-xl bg-blue-600 text-white font-semibold
@@ -126,6 +132,18 @@ const Home = () => {
               title="🚀 Developer Friendly"
               desc="Clean API structure and scalable architecture."
             />
+            <Feature
+              title="🎁 3 Free Shortens"
+              desc="Try the app with 3 free URL shortens, no signup required!"
+            />
+            <Feature
+              title="🔒 Device Tracking"
+              desc="Your free uses are tracked per device and persist forever."
+            />
+            <Feature
+              title="⭐ Unlimited Pro"
+              desc="Sign up for unlimited shortens and advanced features."
+            />
           </div>
         </div>
       </section>
@@ -151,7 +169,7 @@ const Home = () => {
             Start using Shortify today
           </h3>
           <p className="mt-4 opacity-90">
-            Create an account and manage all your URLs with ease.
+            Create an account and manage all your URLs with ease. Try 3 free shortens first!
           </p>
 
           <Link

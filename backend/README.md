@@ -7,6 +7,7 @@ This directory contains the backend for the Shortify URL shortener application. 
 - **User Authentication**: Secure signup and login with JWT.
 - **URL Management**: Create, retrieve, and delete shortened URLs.
 - **Redirection**: Handles redirection from short URLs to their original target.
+- **Rate Limiting**: Built-in protection against abuse with configurable rate limits.
 - **Database**: Uses PostgreSQL with Drizzle ORM for database management.
 
 ## Technologies Used
@@ -16,6 +17,7 @@ This directory contains the backend for the Shortify URL shortener application. 
 - **ORM**: Drizzle ORM
 - **Authentication**: JSON Web Tokens (JWT)
 - **Validation**: Zod
+- **Rate Limiting**: `express-rate-limit`
 - **ID Generation**: `nanoid`
 
 ## API Endpoints
@@ -104,6 +106,19 @@ All endpoints are accessible under the `/` prefix.
     ```
 
 - `GET /:shortCode`: Redirects to the original URL.
+
+## Rate Limiting
+
+The API implements a three-tier rate limiting strategy to prevent abuse:
+
+- **Global Limiter**: 100 requests per 15 minutes per IP (all routes)
+- **Authentication Limiter**: 5 requests per 15 minutes per IP (`/user` routes - signup, login)
+- **URL Limiter**: 30 requests per 1 minute per IP (URL shortening endpoints)
+
+When a rate limit is exceeded, the API returns a `429 Too Many Requests` response with the following headers:
+- `RateLimit-Limit`: Maximum requests allowed
+- `RateLimit-Remaining`: Remaining requests in the current window
+- `RateLimit-Reset`: Time when the rate limit resets (Unix timestamp)
 
 ## Getting Started
 

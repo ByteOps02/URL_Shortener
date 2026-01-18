@@ -26,6 +26,7 @@
     "dotenv-cli": "^11.0.0",
     "drizzle-orm": "^0.45.1",
     "express": "^5.2.1",
+    "express-rate-limit": "^7.1.5",
     "jsonwebtoken": "^9.0.3",
     "nanoid": "^5.1.6",
     "pg": "^8.16.3",

@@ -8,6 +8,58 @@ import { and, eq } from "drizzle-orm";
 
 const router = express.Router();
 
+// PUBLIC ENDPOINT: Shorten URL without authentication (free tier)
+router.post("/shorten-free", async function (req, res) {
+  try {
+    if (!req.body) {
+      return res.status(400).json({
+        error:
+          "Request body is missing. Ensure you have set the 'Content-Type' header to 'application/json'.",
+      });
+    }
+    const validationResult = await shortenPostRequestBodySchema.safeParseAsync(
+      req.body
+    );
+
+    if (validationResult.error) {
+      return res.status(400).json({ error: validationResult.error });
+    }
+
+    const { url, code, deviceId } = validationResult.data;
+
+    if (!deviceId) {
+      return res.status(400).json({ error: "Device ID is required for free tier" });
+    }
+
+    const shortCode = code ?? nanoid(6);
+
+    const [result] = await db
+      .insert(urlsTable)
+      .values({
+        shortCode,
+        targetURL: url,
+        deviceId,
+      })
+      .returning({
+        id: urlsTable.id,
+        shortCode: urlsTable.shortCode,
+        targetURL: urlsTable.targetURL,
+      });
+
+    return res.status(201).json({
+      id: result.id,
+      shortCode: result.shortCode,
+      targetURL: result.targetURL,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      error: "Internal Server Error",
+    });
+  }
+});
+
+// AUTHENTICATED ENDPOINT: Shorten URL with authentication
 router.post("/shorten", ensureAuthenticated, async function (req, res) {
   try {
     if (!req.body) {

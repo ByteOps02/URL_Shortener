@@ -9,6 +9,7 @@ Shortify is a modern, full-stack URL shortener application built with a React fr
 - **URL Management**: Create, retrieve, and delete shortened URLs.
 - **Redirection**: Handles redirection from short URLs to their original target.
 - **Dashboard**: A personalized dashboard to view, copy, and delete your shortened URLs.
+- **Rate Limiting**: Built-in API rate limiting to prevent abuse and ensure fair usage.
 - **Theme Control**: Switch between light, dark, and system-default themes for a comfortable user experience.
 - **Responsive Design**: A sleek and modern UI that looks great on all screen sizes.
 - **API Endpoints**: A well-structured backend API for managing users and URLs.
@@ -30,6 +31,7 @@ Shortify is a modern, full-stack URL shortener application built with a React fr
 - **ORM**: Drizzle ORM
 - **Authentication**: JSON Web Tokens (JWT)
 - **Validation**: Zod
+- **Rate Limiting**: `express-rate-limit`
 - **ID Generation**: `nanoid`
 
 ## Project Structure
@@ -131,6 +133,18 @@ In a new terminal, set up and start the frontend application.
 
 ---
 
-### Step 4: Access the Application
+### Step 4: Rate Limiting Configuration
+
+The backend includes rate limiting to prevent abuse:
+
+- **Authentication Endpoints** (`/user/signup`, `/user/login`): 5 requests per 15 minutes per IP
+- **URL Shortening Endpoint** (`/shorten`): 30 requests per 1 minute per IP
+- **Global Limit**: 100 requests per 15 minutes per IP
+
+No additional configuration is required; rate limiting is enabled by default. If you need to adjust these limits, edit the rate limiter configuration in `backend/index.js`.
+
+---
+
+### Step 5: Access the Application
 
 Open your web browser and navigate to the frontend URL (e.g., `http://localhost:5173`). You should now be able to register, log in, and use the URL shortener application.
