@@ -11,12 +11,6 @@ const FreeUrlShortener = () => {
   const navigate = useNavigate();
   const remainingUses = getRemainingFreeUses();
 
-  const copyToClipboard = (shortCode) => {
-    const url = `${import.meta.env.VITE_BACKEND_URL}/${shortCode}`;
-    navigator.clipboard.writeText(url);
-    toast.success("Copied to clipboard!");
-  };
-
   const submit = async (e) => {
     e.preventDefault();
     
@@ -43,33 +37,37 @@ const FreeUrlShortener = () => {
       toast.success("URL shortened successfully!");
       
       // Show the result
-      toast((t) => (
-        <div className="space-y-2">
-          <p className="text-sm font-medium">Short URL created:</p>
-          <div className="flex items-center gap-2 bg-gray-100 p-2 rounded break-all">
-            <a
-              href={shortUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="text-blue-600 font-semibold flex-1 truncate"
-            >
-              {shortUrl}
-            </a>
-            <button
-              onClick={() => {
-                copyToClipboard(res.data.shortCode);
-                toast.dismiss(t.id);
-              }}
-              className="px-3 py-1 bg-blue-600 text-white rounded text-xs whitespace-nowrap"
-            >
-              Copy
-            </button>
+      toast((t) => {
+        const fullUrl = `${import.meta.env.VITE_BACKEND_URL}/${res.data.shortCode}`;
+        return (
+          <div className="space-y-2">
+            <p className="text-sm font-medium">Short URL created:</p>
+            <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 p-2 rounded">
+              <a
+                href={fullUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-600 font-semibold flex-1 break-all text-sm"
+              >
+                {fullUrl}
+              </a>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(fullUrl);
+                  toast.dismiss(t.id);
+                  toast.success("Copied!");
+                }}
+                className="px-3 py-1 bg-blue-600 text-white rounded text-xs whitespace-nowrap hover:bg-blue-700"
+              >
+                Copy
+              </button>
+            </div>
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              Free uses remaining: {getRemainingFreeUses()}/3
+            </p>
           </div>
-          <p className="text-xs text-gray-600">
-            Free uses remaining: {getRemainingFreeUses() - 1}/3
-          </p>
-        </div>
-      ), { duration: 5000 });
+        );
+      }, { duration: 5000 });
       
       setOriginalUrl("");
 
