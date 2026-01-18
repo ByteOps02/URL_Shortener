@@ -2,6 +2,17 @@
 
 This directory contains the backend for the Shortify URL shortener application. It is built with Node.js and Express and provides a RESTful API for user authentication and URL management.
 
+## Table of Contents
+
+- [Features](#features)
+- [Technologies](#technologies-used)
+- [Getting Started](#getting-started)
+- [API Endpoints](#api-endpoints)
+- [Free Tier Implementation](#free-tier-implementation)
+- [Rate Limiting](#rate-limiting)
+- [Database Schema](#database-schema)
+- [Error Handling](#error-handling)
+
 ## Features
 
 - **Free Tier URL Shortening**: Allow users to shorten 3 URLs without authentication.
@@ -187,6 +198,52 @@ When a rate limit is exceeded, the API returns a `429 Too Many Requests` respons
   - `pnpm db:studio`: Open the database studio.
 
 The server will be available at `http://localhost:8000`.
+
+## Free Tier Implementation
+
+The backend supports a free tier system that allows users to shorten URLs without authentication:
+
+### How It Works
+
+1. **Device Identification**: Frontend sends a unique `deviceId` generated using browser fingerprinting
+2. **Public Endpoint**: `/shorten-free` accepts requests without JWT authentication
+3. **Database Tracking**: URLs created via free tier are stored with `deviceId` instead of `userId`
+4. **Rate Limiting**: Free shortening has a 30 requests per minute limit per IP
+5. **Client-Side Limit**: Frontend enforces 3 shortens per device (stored in localStorage)
+
+### Database Changes
+
+The `urls` table schema was updated to support both authenticated and free tier URLs:
+- `userId`: Optional (null for free tier URLs)
+- `deviceId`: Optional (populated for free tier URLs)
+- At least one of `userId` or `deviceId` must be present
+
+### Frontend Integration
+
+- Device ID is generated once and stored in `localStorage`
+- Free use counter is incremented in `localStorage` and persists indefinitely
+- After 3 uses, frontend prompts user to sign up/login
+
+---
+
+## Error Handling
+
+The API returns appropriate HTTP status codes and error messages:
+
+- `400 Bad Request`: Invalid input or validation error
+- `401 Unauthorized`: Missing or invalid authentication token
+- `404 Not Found`: Resource not found (e.g., invalid short code)
+- `429 Too Many Requests`: Rate limit exceeded
+- `500 Internal Server Error`: Server error
+
+Example error response:
+```json
+{
+  "error": "Invalid email or password"
+}
+```
+
+---
 
 ## Database Schema
 

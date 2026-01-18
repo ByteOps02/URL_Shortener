@@ -142,32 +142,134 @@ The backend includes rate limiting to prevent abuse:
 - **URL Shortening Endpoint** (`/shorten`): 30 requests per 1 minute per IP
 - **Global Limit**: 100 requests per 15 minutes per IP
 
-No additional configuration is required; rate limiting is enabled by default. If you need to adjust these limits, edit the rate limiter configuration in `backend/index.js`.
 
 ---
+
+## API Documentation
+
+For detailed API endpoint documentation, see:
+- **Backend API Docs**: [backend/README.md](backend/README.md) - Complete API endpoints and schemas
+- **Frontend Integration**: [frontend/README.md](frontend/README.md) - Service layer and utilities
+
+### Quick API Examples
+
+**Free Tier URL Shortening** (No auth required):
+```bash
+curl -X POST http://localhost:8000/shorten-free \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com/very-long-url",
+    "deviceId": "device-unique-id"
+  }'
+```
+
+**Authenticated URL Shortening**:
+```bash
+curl -X POST http://localhost:8000/shorten \
+  -H "Authorization: Bearer <your-jwt-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com/very-long-url",
+    "code": "custom-code"
+  }'
+```
+
+**Get All User URLs**:
+```bash
+curl -X GET http://localhost:8000/codes \
+  -H "Authorization: Bearer <your-jwt-token>"
+```
+
+---
+
+## Project Details
+
+### Database Schema
+
+**users table**:
+- `id` (UUID, primary key)
+- `firstname` (varchar)
+- `lastname` (varchar)
+- `email` (varchar, unique)
+- `password` (hashed)
+- `salt` (for password hashing)
+- `createdAt`, `updatedAt` (timestamps)
+
+**urls table**:
+- `id` (UUID, primary key)
+- `shortCode` (varchar, unique)
+- `targetURL` (text)
+- `userId` (UUID, foreign key, optional for free tier)
+- `deviceId` (varchar, optional for authenticated users)
+- `createdAt`, `updatedAt` (timestamps)
+
+### File Structure
+
+```
+URL_Shortener/
+├── backend/
+│   ├── models/           # Database schemas (Drizzle ORM)
+│   ├── routes/           # API endpoints
+│   ├── services/         # Business logic
+│   ├── middlewares/      # Auth, rate limiting
+│   ├── utils/            # Hash, token utilities
+│   ├── validation/       # Zod schemas
+│   ├── db/              # Database connection
+│   ├── index.js         # Server entry point
+│   ├── package.json     # Dependencies
+│   └── docker-compose.yml # PostgreSQL setup
+│
+└── frontend/
+    ├── src/
+    │   ├── components/   # Reusable UI components
+    │   ├── pages/        # Route pages
+    │   ├── context/      # React context (Auth, Theme)
+    │   ├── services/     # API calls
+    │   ├── utils/        # Helper functions (device tracking)
+    │   ├── styles/       # Global CSS
+    │   ├── App.jsx       # Root component
+    │   └── main.jsx      # Entry point
+    ├── vite.config.js    # Vite configuration
+    ├── tailwind.config.js # Tailwind CSS
+    ├── package.json      # Dependencies
+    └── .env              # Environment variables
+```
 
 ### Step 5: Free Tier Feature
 
 Shortify includes a **free tier** that allows users to try the application without signing up:
 
+#### Key Features
 - **3 Free URL Shortens**: Every device gets 3 free attempts to shorten URLs
 - **No Signup Required**: Try before committing to an account
 - **Device-Based Tracking**: Free uses are tracked per device using browser fingerprinting
-- **Persistent**: Free use counter persists across browser restarts and server reboots
+- **Persistent**: Free use counter persists across:
+  - Browser restarts ✓
+  - Device restarts ✓
+  - Server reboots ✓
+  - Page reloads ✓
 - **Auto Prompts**: After 3 attempts, users are prompted to sign up/login for unlimited access
 
-#### How It Works:
+#### How It Works
 1. User visits the home page and sees the "Try for Free" widget
 2. User shortens a URL without authentication (uses `/shorten-free` endpoint)
 3. Device ID is generated using browser fingerprinting + timestamp
-4. Count is stored in localStorage and persists forever
+4. Count is stored in localStorage and persists indefinitely
 5. After 3 uses, user must sign up/login to continue
+
+#### Technical Details
+- Device ID: Generated using browser properties (mimeTypes, userAgent, plugins, screen resolution)
+- Storage: localStorage with keys `device_id` and `free_uses`
+- Backend: Supports both free tier (`/shorten-free`) and authenticated (`/shorten`) endpoints
+- Enforcement: Frontend limits 3 attempts; backend validates deviceId for free tier URLs
 
 ---
 
 ### Step 6: Access the Application
 
-Open your web browser and navigate to the frontend URL (e.g., `http://localhost:5174`). You should now be able to:
+Open your web browser and navigate to the frontend URL (e.g., `http://localhost:5173`). You should now be able to:
 1. Try 3 free URL shortens without signup
 2. Register and log in for unlimited shortens
 3. Manage all your shortened URLs in the dashboard
+
+---
