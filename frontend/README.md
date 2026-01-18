@@ -9,7 +9,8 @@ This directory contains the frontend for the Shortify URL shortener application.
 - **Dashboard**: A comprehensive dashboard to manage all your shortened URLs.
 - **Theme Switcher**: Toggle between light, dark, and system themes.
 - **Responsive Design**: A clean, mobile-first design that adapts to any screen size.
-- **Toast Notifications**: User-friendly feedback for important actions.
+- **Toast Notifications**: User-friendly feedback for important actions and errors.
+- **Rate Limit Handling**: Graceful error handling for API rate limiting.
 
 ## Tech Stack
 
@@ -89,3 +90,17 @@ pnpm run dev
 ```
 
 The application will be available at `http://localhost:5173`.
+
+## Important Notes
+
+### Rate Limiting
+
+The backend implements rate limiting to prevent abuse:
+- **Login/Signup**: Limited to 5 attempts per 15 minutes per IP
+- **URL Shortening**: Limited to 30 requests per minute per IP
+
+If you exceed these limits, you will receive a `429 Too Many Requests` error with a toast notification. Wait for the rate limit window to reset before retrying.
+
+### Environment Configuration
+
+Make sure your `.env` file has the correct `VITE_BACKEND_URL`. This should match the URL where your backend server is running.
