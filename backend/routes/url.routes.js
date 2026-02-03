@@ -1,10 +1,11 @@
 import express from "express";
 import { shortenPostRequestBodySchema } from "../validation/request.validation.js";
-import { nanoid } from "nanoid";
 import { db } from "../db/index.js";
 import { urlsTable } from "../models/index.js";
 import { ensureAuthenticated } from "../middlewares/auth.middleware.js";
 import { and, eq } from "drizzle-orm";
+
+import { createShortUrl } from "../services/url.service.js";
 
 const router = express.Router();
 
@@ -31,20 +32,7 @@ router.post("/shorten-free", async function (req, res) {
       return res.status(400).json({ error: "Device ID is required for free tier" });
     }
 
-    const shortCode = code ?? nanoid(6);
-
-    const [result] = await db
-      .insert(urlsTable)
-      .values({
-        shortCode,
-        targetURL: url,
-        deviceId,
-      })
-      .returning({
-        id: urlsTable.id,
-        shortCode: urlsTable.shortCode,
-        targetURL: urlsTable.targetURL,
-      });
+    const result = await createShortUrl({ url, code, deviceId });
 
     return res.status(201).json({
       id: result.id,
@@ -78,20 +66,7 @@ router.post("/shorten", ensureAuthenticated, async function (req, res) {
 
     const { url, code } = validationResult.data;
 
-    const shortCode = code ?? nanoid(6);
-
-    const [result] = await db
-      .insert(urlsTable)
-      .values({
-        shortCode,
-        targetURL: url,
-        userId: req.user.id,
-      })
-      .returning({
-        id: urlsTable.id,
-        shortCode: urlsTable.shortCode,
-        targetURL: urlsTable.targetURL,
-      });
+    const result = await createShortUrl({ url, code, userId: req.user.id });
 
     return res.status(201).json({
       id: result.id,

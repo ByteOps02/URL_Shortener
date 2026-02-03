@@ -80,7 +80,8 @@ router.post("/signup", async (req, res) => {
     console.error(error);
 
     return res.status(500).json({
-      error: "Internal Server Error",
+      error: error.message || "Internal Server Error",
+      stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
     });
   }
 });
@@ -104,7 +105,7 @@ router.post("/login", async (req, res) => {
     const user = await getUserByEmail(email);
 
     if (!user) {
-      return res.status(404).json({
+      return res.status(400).json({
         error: `User with email ${email} does not exist`,
       });
     }

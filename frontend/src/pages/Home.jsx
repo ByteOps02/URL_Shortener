@@ -1,216 +1,99 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Rocket, TrendingUp, Shield, Zap } from "lucide-react";
 import FreeUrlShortener from "../components/url/FreeUrlShortener";
 
 const Home = () => {
   return (
-    <div className="w-full">
-      {/* HERO */}
-      <section className="min-h-[calc(100vh-80px)] flex items-center justify-center px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="max-w-5xl text-center"
-        >
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Modern URL Shortener
-            </span>
-          </h1>
+    <div className="min-h-[calc(100vh-52px)] lg:h-[calc(100vh-52px)] bg-gray-50 dark:bg-gray-950 flex flex-col overflow-y-auto lg:overflow-hidden transition-colors duration-300">
 
-          <p className="mt-6 text-lg md:text-xl text-gray-600 dark:text-gray-400">
-            Shorten, manage, and track your URLs with a fast, secure, and
-            developer-friendly platform. Try it free!
-          </p>
+      {/* Main Content - Split Layout */}
+      <section className="flex-1 flex items-center justify-center px-4 sm:px-6 py-8 lg:py-3 w-full">
+        <div className="max-w-7xl mx-auto w-full">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            
+            {/* LEFT SIDE - Text Content */}
+            <div className="space-y-6 lg:space-y-4 text-center lg:text-left order-2 lg:order-1">
+              {/* Main Heading */}
+              <div>
+                <h1 className="text-4xl sm:text-5xl lg:text-5xl font-extrabold tracking-tight leading-tight mb-3 text-gray-900 dark:text-white">
+                  Shorten URLs.
+                  <br />
+                  <span className="text-purple-600 dark:text-purple-400">
+                    Amplify Results.
+                  </span>
+                </h1>
 
-          {/* FREE SHORTENER CARD */}
-          <div className="mt-10 flex justify-center">
-            <FreeUrlShortener />
+                {/* Subtitle */}
+                <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                  Transform endless URLs into powerful, trackable links.
+                  <br className="hidden sm:block" />
+                  Built for marketers, developers, and creators.
+                </p>
+              </div>
+
+              {/* Feature Pills */}
+              <div className="flex flex-wrap justify-center lg:justify-start gap-2">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full shadow-sm">
+                  <Zap className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+                  <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Fast</span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full shadow-sm">
+                  <Shield className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+                  <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Secure</span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full shadow-sm">
+                  <TrendingUp className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+                  <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Analytics</span>
+                </div>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-3 w-full sm:w-auto">
+                <Link
+                  to="/register"
+                  className="w-full sm:w-auto px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-semibold text-base flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30 transition-all"
+                >
+                  Start Free
+                  <Rocket className="w-4 h-4" />
+                </Link>
+                
+                <Link
+                  to="/login"
+                  className="w-full sm:w-auto px-6 py-3 bg-white dark:bg-gray-900 border-2 border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white rounded-xl font-semibold text-base hover:border-purple-500 dark:hover:border-purple-500 transition-all text-center"
+                >
+                  Sign In
+                </Link>
+              </div>
+            </div>
+
+            {/* RIGHT SIDE - URL Shortener */}
+            <div className="w-full order-1 lg:order-2 mb-8 lg:mb-0">
+              <FreeUrlShortener />
+            </div>
+
           </div>
-
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/register"
-              className="px-8 py-4 rounded-xl bg-blue-600 text-white font-semibold
-                         hover:bg-blue-700 transition shadow-lg"
-            >
-              Get Started Free
-            </Link>
-
-            <Link
-              to="/login"
-              className="px-8 py-4 rounded-xl border border-gray-300 dark:border-gray-600
-                         font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            >
-              Login
-            </Link>
-          </div>
-        </motion.div>
+        </div>
       </section>
 
-      {/* PROBLEM / SOLUTION */}
-      <section className="py-20 bg-gray-100 dark:bg-gray-900">
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="text-3xl font-bold mb-4">
-              Long URLs are hard to share
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Long and messy URLs look unprofessional, are hard to remember,
-              and break easily on social platforms. Managing multiple links
-              without analytics is even worse.
+      {/* Social Proof Section */}
+      <section className="py-4 px-6 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 shrink-0">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">
+            <p className="text-gray-500 dark:text-gray-400 mb-3 text-xs font-semibold tracking-wide uppercase">
+              Trusted by professionals at
             </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+              <div className="text-lg md:text-xl font-bold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Google</div>
+              <div className="text-lg md:text-xl font-bold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Microsoft</div>
+              <div className="text-lg md:text-xl font-bold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Amazon</div>
+              <div className="text-lg md:text-xl font-bold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Meta</div>
+              <div className="text-lg md:text-xl font-bold text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 transition-colors">Netflix</div>
+            </div>
           </div>
-
-          <div>
-            <h2 className="text-3xl font-bold mb-4 text-blue-600">
-              Shortify solves this
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              Shortify turns long URLs into clean, shareable links while giving
-              you full control, click tracking, and a simple dashboard.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-12">How it works</h2>
-
-          <div className="grid gap-10 md:grid-cols-3">
-            <Step
-              number="01"
-              title="Create an account"
-              desc="Sign up in seconds and access your personal dashboard."
-            />
-            <Step
-              number="02"
-              title="Shorten your URL"
-              desc="Paste any long URL and instantly get a short link."
-            />
-            <Step
-              number="03"
-              title="Track & manage"
-              desc="Monitor clicks and manage all your links in one place."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section className="py-20 bg-gray-100 dark:bg-gray-900">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Powerful features
-          </h2>
-
-          <div className="grid gap-8 md:grid-cols-3">
-            <Feature
-              title="⚡ Fast Performance"
-              desc="Optimized backend ensures instant redirects and low latency."
-            />
-            <Feature
-              title="🔐 Secure Authentication"
-              desc="JWT-based authentication keeps your data protected."
-            />
-            <Feature
-              title="📊 Click Analytics"
-              desc="Track how many times your links are clicked."
-            />
-            <Feature
-              title="🧩 User Dashboard"
-              desc="Manage all your shortened URLs from one place."
-            />
-            <Feature
-              title="🌗 Dark / Light Mode"
-              desc="Switch themes for a comfortable viewing experience."
-            />
-            <Feature
-              title="🚀 Developer Friendly"
-              desc="Clean API structure and scalable architecture."
-            />
-            <Feature
-              title="🎁 3 Free Shortens"
-              desc="Try the app with 3 free URL shortens, no signup required!"
-            />
-            <Feature
-              title="🔒 Device Tracking"
-              desc="Your free uses are tracked per device and persist forever."
-            />
-            <Feature
-              title="⭐ Unlimited Pro"
-              desc="Sign up for unlimited shortens and advanced features."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* USE CASES */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-10">Who is it for?</h2>
-
-          <div className="grid gap-8 md:grid-cols-4">
-            <UseCase title="Developers" desc="Share clean links in projects." />
-            <UseCase title="Students" desc="Submit neat URLs in assignments." />
-            <UseCase title="Marketers" desc="Track link performance easily." />
-            <UseCase title="Everyone" desc="Short links, no hassle." />
-          </div>
-        </div>
-      </section>
-
-      {/* FINAL CTA */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-        <div className="max-w-4xl mx-auto text-center px-6">
-          <h3 className="text-3xl font-bold">
-            Start using Shortify today
-          </h3>
-          <p className="mt-4 opacity-90">
-            Create an account and manage all your URLs with ease. Try 3 free shortens first!
-          </p>
-
-          <Link
-            to="/register"
-            className="inline-block mt-8 px-10 py-4 rounded-xl bg-white
-                       text-blue-600 font-semibold hover:opacity-90 transition"
-          >
-            Get Started Free
-          </Link>
         </div>
       </section>
     </div>
   );
 };
-
-/* COMPONENTS */
-
-const Feature = ({ title, desc }) => (
-  <motion.div
-    whileHover={{ y: -6 }}
-    className="p-6 rounded-2xl bg-white dark:bg-gray-800 shadow
-               hover:shadow-xl transition"
-  >
-    <h3 className="text-xl font-bold">{title}</h3>
-    <p className="mt-3 text-gray-600 dark:text-gray-400">{desc}</p>
-  </motion.div>
-);
-
-const Step = ({ number, title, desc }) => (
-  <div className="p-6 rounded-2xl bg-white dark:bg-gray-800 shadow">
-    <span className="text-blue-600 font-bold text-xl">{number}</span>
-    <h3 className="mt-2 text-xl font-bold">{title}</h3>
-    <p className="mt-2 text-gray-600 dark:text-gray-400">{desc}</p>
-  </div>
-);
-
-const UseCase = ({ title, desc }) => (
-  <div className="p-6 rounded-2xl bg-white dark:bg-gray-800 shadow">
-    <h3 className="font-bold text-lg">{title}</h3>
-    <p className="mt-2 text-gray-600 dark:text-gray-400">{desc}</p>
-  </div>
-);
 
 export default Home;

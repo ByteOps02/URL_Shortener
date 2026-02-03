@@ -38,7 +38,7 @@ export const ThemeProvider = ({ children }) => {
       window.matchMedia("(prefers-color-scheme: dark)").matches);
 
   return (
-    <ThemeContext.Provider value={{ theme, isDark, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, isDark, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

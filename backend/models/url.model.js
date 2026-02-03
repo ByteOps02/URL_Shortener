@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, text, timestamp, index } from "drizzle-orm/pg-core";
 import { usersTable } from "./user.model.js";
 
 export const urlsTable = pgTable("urls", {
@@ -14,4 +14,8 @@ export const urlsTable = pgTable("urls", {
 
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").$onUpdate(() => new Date()),
+}, (table) => {
+  return {
+    userIdIndex: index("user_id_idx").on(table.userId),
+  }
 });

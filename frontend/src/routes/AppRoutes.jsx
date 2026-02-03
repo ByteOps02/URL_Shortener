@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext";
 
 const AppRoutes = () => {
   const { user } = useAuth();
+  const location = useLocation();
 
   return (
     <Routes>
@@ -15,17 +16,23 @@ const AppRoutes = () => {
 
       <Route
         path="/login"
-        element={!user ? <Login /> : <Navigate to="/dashboard" />}
+        element={!user ? <Login /> : <Navigate to="/dashboard" replace />}
       />
 
       <Route
         path="/register"
-        element={!user ? <Register /> : <Navigate to="/dashboard" />}
+        element={!user ? <Register /> : <Navigate to="/dashboard" replace />}
       />
 
       <Route
         path="/dashboard"
-        element={user ? <Dashboard /> : <Navigate to="/login" />}
+        element={
+          user ? (
+            <Dashboard />
+          ) : (
+            <Navigate to="/login" state={{ from: location }} replace />
+          )
+        }
       />
 
       <Route path="*" element={<NotFound />} />
